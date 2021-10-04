@@ -11,8 +11,24 @@ import (
 
 var db = model.DB
 
+type BooksModel interface {
+	GetUsersController() error
+	GetUserController() error
+	CreateUserController() error
+	DeleteUserController() error
+	UpdateUserController() error
+}
+
+type BookController struct {
+	model BooksModel
+}
+
+func NewController(m BooksModel) BookController {
+	return BookController{model: m}
+}
+
 // get all users
-func GetUsersController(c echo.Context) error {
+func (bc *BookController) GetUsersController(c echo.Context) error {
 	var books []model.Book
 	if err := db.Find(&books).Error; err != nil {
 		fmt.Println(err)
@@ -22,7 +38,7 @@ func GetUsersController(c echo.Context) error {
 }
 
 // get user by id
-func GetUserController(c echo.Context) error {
+func (bc *BookController) GetUserController(c echo.Context) error {
 	// your solution here
 	bookId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -41,7 +57,7 @@ func GetUserController(c echo.Context) error {
 }
 
 // create new user
-func CreateUserController(c echo.Context) error {
+func (bc *BookController) CreateUserController(c echo.Context) error {
 	book := model.Book{}
 	if err := c.Bind(&book); err != nil {
 		return c.String(http.StatusInternalServerError, "internal server error")
@@ -53,7 +69,7 @@ func CreateUserController(c echo.Context) error {
 }
 
 // delete user by id
-func DeleteUserController(c echo.Context) error {
+func (bc *BookController) DeleteUserController(c echo.Context) error {
 	// your solution here
 	bookId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -72,7 +88,7 @@ func DeleteUserController(c echo.Context) error {
 	return c.JSON(http.StatusOK, book)
 }
 
-func UpdateUserController(c echo.Context) error {
+func (bc *BookController) UpdateUserController(c echo.Context) error {
 	// your solution here
 	bookId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

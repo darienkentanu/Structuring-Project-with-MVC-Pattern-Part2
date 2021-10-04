@@ -43,3 +43,31 @@ type Book struct {
 	Title  string `json:"title" form:"title"`
 	Author string `json:"author" form:"author"`
 }
+
+type BooksModel struct {
+	data []Book
+}
+
+func NewUserModel() *BooksModel {
+	return &BooksModel{data: []Book{}}
+}
+
+func (bm *BooksModel) GetUsersController() error {
+	return nil
+}
+
+func (bm *BooksModel) GetUserController() error {
+	return nil
+}
+
+func (bm *BooksModel) CreateUserController() error {
+	return nil
+}
+
+func (bm *BooksModel) DeleteUserController() error {
+	return nil
+}
+
+func (bm *BooksModel) UpdateUserController() error {
+	return nil
+}
